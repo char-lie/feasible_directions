@@ -90,8 +90,8 @@ class FrankWolfe(AbstractFeasibleDirectionsDescender):
     for alpha in range(1000):
       cur_x = add(x, multiply(direction, (alpha+1)*.001)).tolist()
       cur_f = self.function(cur_x)
-      if cur_f < min_pair:
-        #print cur_f, cur_x, alpha
+      if cur_f < min_pair[0]:
+        print cur_f, cur_x, alpha
         min_pair = (cur_f, cur_x, alpha)
     return min_pair[2] * .001
 
