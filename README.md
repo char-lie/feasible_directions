@@ -14,5 +14,5 @@ pip install scipy matplotlib pulp
 Run
 
 ```
-sh run_tets.sh
+sh run_tests.sh
 ```
