@@ -9,6 +9,13 @@ and [PuLP](https://pypi.python.org/pypi/PuLP/) installed:
 pip install scipy matplotlib pulp
 ```
 
+Also you need [GNU Linear Programming Kit](https://www.gnu.org/software/glpk/) installed for PuLP.
+In Ubuntu type
+
+```
+apt-get install glpk-utils
+```
+
 ## Testing
 
 Run
