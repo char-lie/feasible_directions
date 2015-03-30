@@ -44,7 +44,7 @@ class TestFunctions(TestCase):
     with self.assertRaises(NotImplementedError):
       ffd.get_step_length((0,0), (0,0))
     with self.assertRaises(NotImplementedError):
-      ffd.termination_criterion([(0,0)], 0)
+      ffd.termination_criterion([(0,0)])
 
 if __name__ == '__main__':
   main()
