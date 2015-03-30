@@ -74,13 +74,10 @@ class AbstractFeasibleDirectionsDescender:
     # Step 1 (Termination check)
     while not self.termination_criterion(x):
       # Step 2 (Direction determination)
-      #direction = self._normalize(self.get_descent_direction(current_x))
       direction = self.get_descent_direction(current_x)
       # Step 3 (Step length determination)
       step_length = self.get_step_length(current_x, direction)
       # Step 4 (Update)
-      #print current_x, x[-1], direction, step_length
-      #print "x", current_x, "direction", direction, "step", step_length
       current_x = add(x[-1], multiply(direction, step_length)).tolist()
       x.append(current_x)
       k += 1

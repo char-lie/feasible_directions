@@ -26,11 +26,6 @@ class FrankWolfe(AbstractFeasibleDirectionsDescender):
     return grad
 
   def _calculate_gradient(self, x):
-    #result = list()
-    #for i in range(len(x)):
-    #  df = lambda y: self.function(x[:i] + [y] + x[i+1:])
-    #  result.append(derivative(df, x[i], 1e-6))
-    #return result
     return self._get_gradient_function()(x)
   
   def get_start_point(self):
@@ -58,22 +53,7 @@ class FrankWolfe(AbstractFeasibleDirectionsDescender):
     status = prob.solve(GLPK(msg=0))
     LpStatus[status]
 
-    #return self._normalize([value(y[0]), value(y[1])])
-    #print "Start", self.function([current_x[0], current_x[1]]), "vs",\
-    #      "end", self.function([value(y[0]), value(y[1])])
     return [value(y[0])-current_x[0], value(y[1])-current_x[1]]
-
-    #y0 = LpVariable("y0", -100, 100)
-    #y1 = LpVariable("y1", -100, 100)
-    #prob = LpProblem("problem", LpMinimize)
-    #grad = self._calculate_gradient(current_x)
-    #prob += y0>=0
-    #prob += y1>=0
-    #prob += y0 * grad[0] + y1 * grad[1]
-    #status = prob.solve(GLPK(msg=0))
-    #LpStatus[status]
-
-    #return (value(y0), value(y1))
 
   def get_step_length(self, x, direction):
     """
@@ -81,21 +61,15 @@ class FrankWolfe(AbstractFeasibleDirectionsDescender):
     f(x + step * direction) < f(x) and
     self._fits_constraints(x + step * direction) is True
     """
-    #x = ndarray((2,), float, array(x))
-    #direction = ndarray((2,), float, array(direction))
-    #search_result = line_search(self.function, self._get_gradient_function(),
-    #                            x, direction)[0]
-    #if search_result is None:
-    #  print "None"
-    #result = 1 if search_result is None else search_result
+    iterations_number = 1000
     current_pair = (self.function(x), x, 0)
     min_pair = (self.function(x), x, 0)
-    for alpha in range(1000):
-      cur_x = add(x, multiply(direction, (alpha+1)*.001)).tolist()
+    for alpha in range(iterations_number):
+      cur_x = add(x, multiply(direction, (alpha+1.0)/iterations_number)).tolist()
       cur_f = self.function(cur_x)
       if cur_f < min_pair[0]:
         min_pair = (cur_f, cur_x, alpha+1)
-    return min_pair[2] * .001
+    return (min_pair[2]*1.0)/iterations_number
 
   def termination_criterion(self, x):
     """
