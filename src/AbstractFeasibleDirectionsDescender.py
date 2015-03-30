@@ -3,24 +3,23 @@ from exceptions import NotImplementedError, ValueError
 from numpy import add, multiply, divide
 from numpy.linalg import norm
 
-from AbstractConstraints import AbstractConstraints
+from AbstractFunction import AbstractFunction
 
 class AbstractFeasibleDirectionsDescender:
   """
   Abstract class for feasible direction descend optimization method.
   """
 
-  def __init__(self, constraints = None, function = None):
+  def __init__(self, function = None):
     """
     Initialize descender with differentialbe function R^n -> R
     and constraints.
     """
-    if not isinstance(constraints, AbstractConstraints):
+    if not isinstance(function, AbstractFunction):
       raise ValueError("Parameter {param} should be instance of {classname}," +
                        " but it has type {actual_type}".format(
-                          param="constraints", classname="AbstractConstraints",
-                          actual_type=type(constraints)))
-    self.constraints = constraints
+                          param="function", classname="AbstractFunction",
+                          actual_type=type(function)))
     self.function = function
 
   def _normalize(self, vector):
@@ -78,11 +77,11 @@ class AbstractFeasibleDirectionsDescender:
       #direction = self._normalize(self.get_descent_direction(current_x))
       direction = self.get_descent_direction(current_x)
       # Step 3 (Step length determination)
-      step_length = self.get_step_length(x, direction)
+      step_length = self.get_step_length(current_x, direction)
       # Step 4 (Update)
       #print current_x, x[-1], direction, step_length
-      print "x", current_x, "direction", direction, "step", step_length
-      current_x = add(x[-1], multiply(direction, step_length))
+      #print "x", current_x, "direction", direction, "step", step_length
+      current_x = add(x[-1], multiply(direction, step_length)).tolist()
       x.append(current_x)
       k += 1
     # Output

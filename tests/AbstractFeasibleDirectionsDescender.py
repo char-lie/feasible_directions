@@ -1,4 +1,4 @@
-from unittest import TestCase, main
+from unittest import TestCase, skip, main
 
 from numpy.linalg import norm
 
@@ -18,15 +18,13 @@ class TestFunctions(TestCase):
       ffd = AbstractFeasibleDirectionsDescender()
 
   def test_constructor(self):
-    function = lambda x: x
-    constraints = AbstractConstraints()
-    ffd = AbstractFeasibleDirectionsDescender(constraints, function)
+    function = AbstractFunction()
+    ffd = AbstractFeasibleDirectionsDescender(function)
     self.assertIsInstance(ffd, AbstractFeasibleDirectionsDescender)
     self.assertEqual(ffd.function, function)
-    self.assertEqual(ffd.constraints, constraints)
 
   def test_normalize(self):
-    ffd = AbstractFeasibleDirectionsDescender(AbstractConstraints())
+    ffd = AbstractFeasibleDirectionsDescender(AbstractFunction())
     v = (1, 1)
     v_norm = norm(v)
     self.assertNotAlmostEqual(v_norm, 1)
@@ -36,7 +34,7 @@ class TestFunctions(TestCase):
     self.assertAlmostEqual(normalized_v[1] * v_norm, v[1])
 
   def test_not_implemented(self):
-    ffd = AbstractFeasibleDirectionsDescender(AbstractConstraints())
+    ffd = AbstractFeasibleDirectionsDescender(AbstractFunction())
     with self.assertRaises(NotImplementedError):
       ffd.get_start_point()
     with self.assertRaises(NotImplementedError):
