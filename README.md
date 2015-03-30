@@ -2,14 +2,18 @@
 
 ## Requirements
 
-Needs [matplotlib](https://pypi.python.org/pypi/matplotlib/), [scipy](https://pypi.python.org/pypi/scipy/)
-and [PuLP](https://pypi.python.org/pypi/PuLP/) installed:
+Needs [matplotlib](https://pypi.python.org/pypi/matplotlib/),
+[scipy](https://pypi.python.org/pypi/scipy/),
+[PuLP](https://pypi.python.org/pypi/PuLP/) (linear programming)
+and [Numdifftools](https://pypi.python.org/pypi/Numdifftools/) (gradient)
+installed:
 
 ```
-pip install scipy matplotlib pulp
+pip install scipy matplotlib pulp numdifftools
 ```
 
-Also you need [GNU Linear Programming Kit](https://www.gnu.org/software/glpk/) installed for PuLP.
+Also you need [GNU Linear Programming Kit](https://www.gnu.org/software/glpk/)
+installed for PuLP.
 In Ubuntu type
 
 ```
