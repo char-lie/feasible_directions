@@ -87,10 +87,11 @@ class FrankWolfe(AbstractFeasibleDirectionsDescender):
     #result = 1 if search_result is None else search_result
     current_pair = (self.function(x), x, 0)
     min_pair = (self.function(x), x, 0)
-    for alpha in range(1001):
-      cur_x = add(x, direction).tolist()
+    for alpha in range(1000):
+      cur_x = add(x, multiply(direction, (alpha+1)*.001)).tolist()
       cur_f = self.function(cur_x)
       if cur_f < min_pair:
+        #print cur_f, cur_x, alpha
         min_pair = (cur_f, cur_x, alpha)
     return min_pair[2] * .001
 
