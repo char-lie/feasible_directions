@@ -47,18 +47,18 @@ class FrankWolfe(AbstractFeasibleDirectionsDescender):
     """
     y = list()
     for i in range(len(current_x)):
-      y.append(LpVariable("y"+str(i), -100, 100))
+      y.append(LpVariable("y"+str(i), -2, 2))
     prob = LpProblem("problem", LpMinimize)
     grad = self._calculate_gradient(current_x)
-    prob += y[0]>=0
-    prob += y[1]>=0
+    prob += y[0]>=-2
+    prob += y[1]>=-2
     prob += (y[0]-current_x[0]) * grad[0] + (y[1]-current_x[1]) * grad[1]
 
     status = prob.solve(GLPK(msg=0))
     LpStatus[status]
 
     #return self._normalize([value(y[0]), value(y[1])])
-    return [value(y[0]-current_x[0]), value(y[1]-current_x[1])]
+    return [value(y[0])-current_x[0], value(y[1])-current_x[1]]
 
     #y0 = LpVariable("y0", -100, 100)
     #y1 = LpVariable("y1", -100, 100)
