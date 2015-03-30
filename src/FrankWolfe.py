@@ -3,7 +3,7 @@ from src.AbstractFeasibleDirectionsDescender import *
 from scipy.misc import derivative
 from scipy.optimize import line_search
 
-from numpy import subtract, ndarray, array
+from numpy import subtract, ndarray, array, add
 from numpy.linalg import norm
 
 from pulp import *
@@ -37,7 +37,7 @@ class FrankWolfe(AbstractFeasibleDirectionsDescender):
     """
     Get start point for descend algorithm.
     """
-    return [100, 100]
+    return [0, 0]
 
   def get_descent_direction(self, current_x):
     """
@@ -78,15 +78,21 @@ class FrankWolfe(AbstractFeasibleDirectionsDescender):
     f(x + step * direction) < f(x) and
     self._fits_constraints(x + step * direction) is True
     """
-    f = lambda x, y: (1-x)**2 + 100*(y-x**2)**2
     x = ndarray((2,), float, array(x))
-    direction = ndarray((2,), float, array(direction))
-    search_result = line_search(self.function, self._get_gradient_function(),
-                                x, direction)[0]
-    if search_result is None:
-      print "None"
-    result = 1 if search_result is None else search_result
-    return result
+    #direction = ndarray((2,), float, array(direction))
+    #search_result = line_search(self.function, self._get_gradient_function(),
+    #                            x, direction)[0]
+    #if search_result is None:
+    #  print "None"
+    #result = 1 if search_result is None else search_result
+    current_pair = (self.function(x), x, 0)
+    min_pair = (self.function(x), x, 0)
+    for alpha in range(1001):
+      cur_x = add(x, direction).tolist()
+      cur_f = self.function(cur_x)
+      if cur_f < min_pair:
+        min_pair = (cur_f, cur_x, alpha)
+    return min_pair[2] * .001
 
   def termination_criterion(self, x):
     """
